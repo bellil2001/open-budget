@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   View,
@@ -7,11 +6,21 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  Pressable,
 } from 'react-native';
 
 import { StatusBar } from 'expo-status-bar';
+import { Ionicons } from '@react-native-vector-icons/ionicons';
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState('Home');
+  const tabIcons = {
+    Home: 'home',
+    Transactions: 'swap-horizontal',
+    Accounts: 'wallet',
+    Settings: 'settings',
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
@@ -34,7 +43,10 @@ export default function App() {
 
       {/* SCROLLABLE DASHBOARD */}
       <ScrollView
-        style={styles.content}
+        style={[
+          styles.content,
+          activeTab !== 'Home' && styles.hidden,
+        ]}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
@@ -126,6 +138,60 @@ export default function App() {
         </View>
 
       </ScrollView>
+
+      
+      {/* OTHER SCREENS */}
+      {activeTab !== 'Home' && (
+        <View style={styles.placeholderScreen}>
+          <Text style={styles.title}>
+            {activeTab}
+          </Text>
+
+          <Text style={styles.description}>
+            We will build the {activeTab.toLowerCase()} screen next.
+          </Text>
+        </View>
+      )}
+
+      
+      
+      {/* BOTTOM NAVIGATION */}
+      <View style={styles.bottomNav}>
+        {['Home', 'Transactions', 'Accounts', 'Settings'].map((tab) => (
+          <Pressable
+            key={tab}
+            style={styles.navItem}
+            onPress={() => setActiveTab(tab)}
+            accessibilityRole="button"
+            accessibilityLabel={`Open ${tab}`}
+          >
+            <Ionicons
+              name={tabIcons[tab]}
+              size={23}
+              color={
+                activeTab === tab
+                  ? '#176B4D'
+                  : '#6B7280'
+              }
+            />
+
+            <Text
+              style={[
+                activeTab === tab
+                  ? styles.activeNavText
+                  : styles.navText,
+                { marginTop: 6 },
+              ]}
+            >
+              {tab}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
+
+      
+
 
     </SafeAreaView>
   );
@@ -308,5 +374,53 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'center',
   },
+
+  emptyDescription: {
+    fontSize: 13,
+    color: '#6B7280',
+    lineHeight: 21,
+    textAlign: 'center',
+  },
+
+  
+  bottomNav: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    borderTopWidth: 1,
+    borderTopColor: '#E5E7EB',
+    paddingTop: 18,
+    paddingBottom: 20,
+    paddingHorizontal: 8,
+  },
+
+  navItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  navText: {
+    color: '#6B7280',
+    fontSize: 11,
+    fontWeight: '500',
+  },
+
+  activeNavText: {
+    color: '#176B4D',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+
+  
+  hidden: {
+    display: 'none',
+  },
+
+  placeholderScreen: {
+    flex: 1,
+    padding: 24,
+  },
+
+
 
 });
