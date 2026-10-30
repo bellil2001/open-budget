@@ -153,8 +153,6 @@ export default function App() {
         </View>
       )}
 
-      
-      
       {/* BOTTOM NAVIGATION */}
       <View style={styles.bottomNav}>
         {['Home', 'Transactions', 'Accounts', 'Settings'].map((tab) => (
