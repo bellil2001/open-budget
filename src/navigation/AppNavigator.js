@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 
 import AppHeader from '../components/AppHeader';
 import DashboardScreen from '../features/dashboard/DashboardScreen';
+import AccountsScreen from '../features/accounts/AccountsScreen';
 import BottomNavigation from './BottomNavigation';
 
 import { colors } from '../theme/colors';
@@ -45,6 +46,8 @@ export default function AppNavigator() {
       {/* SCREEN CONTENT */}
       {activeTab === 'Home' ? (
         <DashboardScreen />
+      ) : activeTab === 'Accounts' ? (
+        <AccountsScreen />
       ) : (
         <View style={styles.placeholderScreen}>
           <Text style={styles.title}>
